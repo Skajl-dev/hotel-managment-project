@@ -20,13 +20,6 @@ public interface HotelDAO {
 
     public List<Hotel> findByCountry(String country);
 
-    public Session openCurrentSessionWithTransaction();
-
-    public void closeCurrentSessionWithTransaction();
-
-    public Session openCurrentSession();
-
-    public void closeCurrentSession();
 
 
 }
