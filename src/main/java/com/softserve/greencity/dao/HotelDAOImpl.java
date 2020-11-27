@@ -32,8 +32,8 @@ public class HotelDAOImpl implements HotelDAO {
         currentSession.close();
     }
 
-    private Session openCurrentSession() {
-        return sessionFactory.openSession();
+    private void openCurrentSession() {
+        currentSession = sessionFactory.openSession();
     }
 
     private void closeCurrentSession() {
