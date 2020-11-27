@@ -46,7 +46,7 @@ public class HotelDAOImpl implements HotelDAO {
 
     @Override
     public Hotel findHotelById(int id) {
-        getCurrentSession();
+        openCurrentSession();
         Hotel hotel = (Hotel) getCurrentSession().get(Hotel.class, id);
         closeCurrentSession();
         return hotel;
