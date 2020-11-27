@@ -9,4 +9,7 @@ public class HotelController {
     public String test() {
         return "welcome";
     }
+
+
+    //comment
 }
