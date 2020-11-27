@@ -3,6 +3,7 @@ package com.softserve.greencity.entity;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "hotel")
 public class Hotel {
     @Id
     @Column
