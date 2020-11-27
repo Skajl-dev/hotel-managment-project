@@ -55,7 +55,7 @@ public class HotelDAOImpl implements HotelDAO {
     @Override
     public List<Hotel> findAll() {
         openCurrentSession();
-        List<Hotel> hotels = (List<Hotel>) getCurrentSession().createQuery("from Hotel").list();
+        List<Hotel> hotels = (List<Hotel>) getCurrentSession().createQuery("from Hotel", Hotel.class).list();
         closeCurrentSession();
         return hotels;
     }

@@ -2,6 +2,7 @@ package com.softserve.greencity.service;
 
 import com.softserve.greencity.entity.Hotel;
 
+
 import java.util.List;
 
 

@@ -1,13 +1,10 @@
 package com.softserve.greencity.controller;
 
 import com.softserve.greencity.dao.HotelDAO;
-import com.softserve.greencity.entity.Hotel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
 
 @Controller
 public class HotelController {
@@ -20,10 +17,12 @@ public class HotelController {
         this.hotelDAO = hotelDAO;
     }
 
-    /* @GetMapping("/")
+    @GetMapping("/")
     public String test() {
         return "welcome";
-    } */
+    }
+
+    /*
     @GetMapping("/")
     public ModelAndView  listHotel(ModelAndView model) {
         List<Hotel> listHotel = hotelDAO.findAll();
@@ -32,7 +31,7 @@ public class HotelController {
 
         return model;
     }
-
+ */
 
     //comment
 }

@@ -1,10 +1,9 @@
 package com.softserve.greencity.dao;
 
 import com.softserve.greencity.entity.Hotel;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
 import java.util.List;
+
 
 public interface HotelDAO {
 

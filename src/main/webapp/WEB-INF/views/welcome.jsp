@@ -18,7 +18,7 @@
 -->
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+<!--
 <html>
 <head>
     <title>Travel agency Home</title>
@@ -26,7 +26,7 @@
 <body>
 
 <div align="center">
-    <h1>Contact List</h1>
+    <h1>Hotel List</h1>
     <table border="1" cellpadding="5">
             <tr>
                 <th>№</th>
@@ -46,3 +46,4 @@
 
 </body>
 </html>
+-->
