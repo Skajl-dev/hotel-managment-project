@@ -1,6 +1,7 @@
 package com.softserve.greencity.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "hotel")
@@ -15,6 +16,9 @@ public class Hotel {
 
     @Column
     private String country;
+
+    @OneToMany(mappedBy = "hotel")
+    private List<Room> roomList;
 
     public Hotel() {
     }

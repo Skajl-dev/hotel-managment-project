@@ -1,6 +1,7 @@
 package com.softserve.greencity.dao;
 
 import com.softserve.greencity.entity.Hotel;
+import com.softserve.greencity.entity.Room;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -14,81 +15,67 @@ import java.util.List;
 public class HotelDAOImpl implements HotelDAO {
     private SessionFactory sessionFactory;
     private Session currentSession;
-    private Transaction currentTransaction;
 
     @Autowired
     public HotelDAOImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
-    private Session openCurrentSessionWithTransaction() {
-        currentSession = sessionFactory.openSession();
-        currentTransaction = currentSession.beginTransaction();
-        return currentSession;
-    }
-
-    private void closeCurrentSessionWithTransaction() {
-        currentTransaction.commit();
-        currentSession.close();
-    }
-
-    private void openCurrentSession() {
-        currentSession = sessionFactory.openSession();
-    }
-
-    private void closeCurrentSession() {
-        currentSession.close();
-    }
-
-    private Session getCurrentSession() {
-        return currentSession;
-    }
-
-    @Override
-    public Hotel findHotelById(int id) {
-        openCurrentSession();
-        Hotel hotel = (Hotel) getCurrentSession().get(Hotel.class, id);
-        closeCurrentSession();
-        return hotel;
-    }
+//    @Override
+//    public Hotel findHotelById(int id) {
+//        openCurrentSession();
+//        Hotel hotel = (Hotel) getCurrentSession().get(Hotel.class, id);
+//        closeCurrentSession();
+//        return hotel;
+//    }
 
     @Override
     public List<Hotel> findAll() {
-        openCurrentSession();
-        List<Hotel> hotels = (List<Hotel>) getCurrentSession().createQuery("from Hotel", Hotel.class).list();
-        closeCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
+
+        List<Hotel> hotels = session.createQuery("from Hotel", Hotel.class).getResultList();
+        return hotels;
+    }
+
+//    @Override
+//    public void save(Hotel hotel) {
+//        openCurrentSessionWithTransaction();
+//        getCurrentSession().save(hotel);
+//        closeCurrentSessionWithTransaction();
+//    }
+//
+//    @Override
+//    public void update(Hotel hotel) {
+//        openCurrentSessionWithTransaction();
+//        getCurrentSession().update(hotel);
+//        closeCurrentSessionWithTransaction();
+//    }
+//
+//    @Override
+//    public void deleteById(int id) {
+//        openCurrentSessionWithTransaction();
+//        final Hotel hotel = findHotelById(id);
+//        getCurrentSession().delete(hotel);
+//        closeCurrentSessionWithTransaction();
+//    }l
+//
+    @Override
+    public List<Hotel> findByCountry(String country) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("FROM Hotel AS h WHERE h.country = :countryName");
+        query.setParameter("countryName", country);
+        List<Hotel> hotels = query.getResultList();
         return hotels;
     }
 
     @Override
-    public void save(Hotel hotel) {
-        openCurrentSessionWithTransaction();
-        getCurrentSession().save(hotel);
-        closeCurrentSessionWithTransaction();
-    }
-
-    @Override
-    public void update(Hotel hotel) {
-        openCurrentSessionWithTransaction();
-        getCurrentSession().update(hotel);
-        closeCurrentSessionWithTransaction();
-    }
-
-    @Override
-    public void deleteById(int id) {
-        openCurrentSessionWithTransaction();
-        final Hotel hotel = findHotelById(id);
-        getCurrentSession().delete(hotel);
-        closeCurrentSessionWithTransaction();
-    }
-
-    @Override
-    public List<Hotel> findByCountry(String country) {
-        openCurrentSession();
-        Query query = getCurrentSession().createQuery("from Hotel hot where hot.country = :ccountry");
-        query.setParameter("ccountry", country);
-        closeCurrentSession();
-        return query.getResultList();
+    public List<String> findRoomsByHotel(String hotelName) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select r.name from Room r inner join r.hotel as h WHERE h.name = :hotelName");
+        query.setParameter("hotelName", hotelName);
+//        JOIN Hotel as h ON r.hotel_id = h.id WHERE h.name = :hotelName
+        List<String> hotels = query.getResultList();
+        return hotels;
     }
 
 
