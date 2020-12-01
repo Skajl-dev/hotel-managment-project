@@ -10,7 +10,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 @EnableWebMvc
 @ComponentScan("com.softserve.greencity")
-public class WebApplicationContextConfig implements WebMvcConfigurer {
+public class WebApplicationConfig implements WebMvcConfigurer {
 
     @Bean
     public InternalResourceViewResolver getInternalResourceViewResolver() {
