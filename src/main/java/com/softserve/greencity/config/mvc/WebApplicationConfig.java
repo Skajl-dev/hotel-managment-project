@@ -1,4 +1,4 @@
-package com.softserve.greencity.config;
+package com.softserve.greencity.config.mvc;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

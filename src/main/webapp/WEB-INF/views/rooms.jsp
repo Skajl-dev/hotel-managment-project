@@ -18,13 +18,13 @@
         <table>
             <tr>
                 <td>Room name</td>
-                <td>Make book a hotel room</td>
+                <td>Book a hotel room</td>
             </tr>
             <c:forEach var="room" items="${rooms}">
                 <tr>
                     <td>${room}</td>
                     <td>
-                        <form action="/book_room" method="post">
+                        <form action="${pageContext.request.contextPath}/book_room" method="get">
                             <input type="date" name="bookingDate">
                             <input type = "submit" value = "Book" />
                         </form>

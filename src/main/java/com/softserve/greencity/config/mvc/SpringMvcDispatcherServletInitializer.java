@@ -1,5 +1,6 @@
-package com.softserve.greencity.config;
+package com.softserve.greencity.config.mvc;
 
+import com.softserve.greencity.config.db.HibernateConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class SpringMvcDispatcherServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {

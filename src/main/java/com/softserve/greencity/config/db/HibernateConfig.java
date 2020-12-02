@@ -1,4 +1,4 @@
-package com.softserve.greencity.config;
+package com.softserve.greencity.config.db;
 
 import java.util.Properties;
 

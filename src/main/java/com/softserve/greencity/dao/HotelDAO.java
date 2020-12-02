@@ -1,9 +1,11 @@
 package com.softserve.greencity.dao;
 
+
 import com.softserve.greencity.entity.Hotel;
 import com.softserve.greencity.entity.Room;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface HotelDAO {
@@ -21,5 +23,7 @@ public interface HotelDAO {
     List<Hotel> findByCountry(String country);
 
     List<String> findRoomsByHotel(String hotelName);
+
+//    Optional<HotelUser> selectHotelUserByUsername(String username);
 
 }
