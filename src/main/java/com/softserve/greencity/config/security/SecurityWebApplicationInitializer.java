@@ -1,4 +1,4 @@
-package com.softserve.greencity.config;
+package com.softserve.greencity.config.security;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
@@ -55,9 +56,15 @@ public class HotelController {
         return "rooms";
     }
 
-    @PostMapping("/book_room")
-    public void bookRoom(@RequestParam String bookingDate) {
-        System.out.println(bookingDate);
+    @GetMapping("/book_room")
+    public String bookRoom(@RequestParam String bookingDate, Principal principal) {
+        System.out.println(principal.getName() + " : " + bookingDate);
+        return "redirect:index.jsp";
+    }
+
+    @GetMapping("/login_page")
+    public String loginPage() {
+       return "login_page";
     }
 
 }

@@ -1,5 +1,6 @@
-package com.softserve.greencity.config;
+package com.softserve.greencity.config.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -12,35 +13,32 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
+    DataSource dataSource;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.csrf().disable()
                 .authorizeRequests()
                 .anyRequest()
                 .authenticated()
                 .and()
-                .httpBasic();
+                .formLogin().loginPage("/login_page").loginProcessingUrl("/authenticateUser").permitAll()
+                .and()
+                .logout().permitAll();
     }
 
     @Override
     @Bean
     protected UserDetailsService userDetailsService() {
-        UserDetails tarasUser = User.builder()
-                .username("taras")
-                .password(passwordEncoder().encode("1234"))
-                .roles("USER")
-                .build();
-        UserDetails olegUser = User.builder()
-                .username("oleg")
-                .password(passwordEncoder().encode("1234"))
-                .roles("MANAGER")
-                .build();
-        
-        return new InMemoryUserDetailsManager(tarasUser, olegUser);
+        return new JdbcUserDetailsManager(dataSource);
     }
 
     @Bean
