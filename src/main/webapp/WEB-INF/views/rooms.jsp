@@ -21,13 +21,20 @@
                 <td>Book a hotel room</td>
             </tr>
             <c:forEach var="room" items="${rooms}">
+                <c:url var="getRoomLink" value="/book_room">
+                    <c:param name="roomId" value="${room.id}"/>
+                </c:url>
                 <tr>
-                    <td>${room}</td>
+                    <td>${room.name}</td>
                     <td>
-                        <form action="${pageContext.request.contextPath}/book_room" method="get">
-                            <input type="date" name="bookingDate">
+                        <form:form action="${getRoomLink}" method="post">
+                            <select name="bookingDate">
+                                <c:forEach var="date" items="${dates}">
+                                     <option value="${date}">${date}</option>
+                                </c:forEach>
+                            </select>
                             <input type = "submit" value = "Book" />
-                        </form>
+                        </form:form>
                     </td>
                 </tr>
             </c:forEach>
