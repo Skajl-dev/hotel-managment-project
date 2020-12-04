@@ -28,8 +28,8 @@
 </form:form>
 
 <security:authorize access="hasRole('MANAGER')">
-    <p><a href="#">add hotels in the system</a></p>
-    <p><a href="#">add rooms to the hotel</a></p>
+    <p><a href="/new_hotel">add hotel in the system</a></p>
+    <p><a href="/new_rooms_info">add rooms to the hotel</a></p>
     <p><a href="#">view all users and their orders</a></p>
 </security:authorize>
 

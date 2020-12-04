@@ -41,13 +41,38 @@ public class HotelDAOImpl implements HotelDAO {
         return hotels;
     }
 
-//    @Override
-//    public void save(Hotel hotel) {
-//        openCurrentSessionWithTransaction();
-//        getCurrentSession().save(hotel);
-//        closeCurrentSessionWithTransaction();
-//    }
-//
+    @Override
+    public void save(Hotel hotel) {
+        Session session = sessionFactory.getCurrentSession();
+        session.save(hotel);
+    }
+
+    public void saveRoom(Room room) {
+        Session session = sessionFactory.getCurrentSession();
+        session.save(room);
+    }
+
+    @Override
+    public Hotel findByName(String hotelName) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("FROM Hotel AS h WHERE h.name = :hotelName");
+        query.setParameter("hotelName", hotelName);
+        Hotel hotel = (Hotel) query.getSingleResult();
+
+        return hotel;
+    }
+
+
+    @Override
+    public List<Hotel> findByCountry(String country) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("FROM Hotel AS h WHERE h.country = :countryName");
+        query.setParameter("countryName", country);
+        List<Hotel> hotels = query.getResultList();
+
+        return hotels;
+    }
+    //
 //    @Override
 //    public void update(Hotel hotel) {
 //        openCurrentSessionWithTransaction();
@@ -63,14 +88,7 @@ public class HotelDAOImpl implements HotelDAO {
 //        closeCurrentSessionWithTransaction();
 //    }l
 //
-    @Override
-    public List<Hotel> findByCountry(String country) {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("FROM Hotel AS h WHERE h.country = :countryName");
-        query.setParameter("countryName", country);
-        List<Hotel> hotels = query.getResultList();
-        return hotels;
-    }
+
 
     @Override
     public List<Room> findRoomsByHotel(String hotelName) {

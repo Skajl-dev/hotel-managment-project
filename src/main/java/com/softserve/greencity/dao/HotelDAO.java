@@ -18,12 +18,17 @@ public interface HotelDAO {
 
     List<Hotel> findAll();
 //
-//    void save(Hotel hotel);
+    void save(Hotel hotel);
 //
 //    void update(Hotel hotel);
 //
-//    void deleteById(int id);
+//    void deleteById(int id);;
+
+    void saveRoom(Room room);
 //
+
+    Hotel findByName(String hotelName);
+
     List<Hotel> findByCountry(String country);
 
     List<Room> findRoomsByHotel(String hotelName);
