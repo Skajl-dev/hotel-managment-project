@@ -29,6 +29,8 @@ public interface HotelService {
 
     void saveRooms(RoomForm roomForm, Hotel hotel);
 
+    void saveRoom(Room room);
+
 //    public void update(Hotel hotel);
 //
 //    public void deleteById(int id);
