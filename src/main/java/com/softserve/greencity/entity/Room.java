@@ -3,6 +3,7 @@ package com.softserve.greencity.entity;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import java.util.List;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -20,14 +21,17 @@ public class Room {
     @ManyToOne
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
-
+//
+    @OneToMany(mappedBy = "room")
+    private List<Order> orders;
 
     public Room() {
     }
 
-    public Room(String name, Hotel hotel) {
+    public Room(String name, Hotel hotel, List<Order> orders) {
         this.name = name;
         this.hotel = hotel;
+        this.orders = orders;
     }
 
     public Integer getId() {
@@ -52,6 +56,14 @@ public class Room {
 
     public void setHotel(Hotel hotel) {
         this.hotel = hotel;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     @Override

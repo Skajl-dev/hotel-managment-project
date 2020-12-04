@@ -1,11 +1,15 @@
 package com.softserve.greencity.service;
 
 import com.softserve.greencity.entity.Hotel;
+import com.softserve.greencity.entity.HotelUser;
+
+import com.softserve.greencity.entity.Order;
 import com.softserve.greencity.entity.Room;
 import com.softserve.greencity.entity.RoomForm;
 import org.springframework.validation.Errors;
 
 
+import java.security.Principal;
 import java.util.List;
 
 
@@ -31,8 +35,14 @@ public interface HotelService {
 //
     List<Hotel> findByCountry(String country);
 
-    List<String> findRoomsByHotel(String hotelName);
-    public void saveRoom(Room room);
+    List<Room> findRoomsByHotel(String hotelName);
 
 
+    void bookRoom(Order order);
+//
+    Room getRoomById(Integer roomId);
+
+    HotelUser getUserByName(String name);
+
+    Order getOrderByRoomId(Integer roomId, String bookingDate);
 }

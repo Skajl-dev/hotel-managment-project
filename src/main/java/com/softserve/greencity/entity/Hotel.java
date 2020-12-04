@@ -23,15 +23,16 @@ public class Hotel {
     @Size(min = 4, max = 20, message = "country name should  be between 4 and 20 characters")
     private String country;
 
-    @OneToMany(mappedBy = "hotel")
+    @OneToMany(mappedBy = "hotel", fetch = FetchType.EAGER)
     private List<Room> roomList;
 
     public Hotel() {
     }
 
-    public Hotel(String name, String country) {
+    public Hotel(String name, String country, List<Room> roomList) {
         this.name = name;
         this.country = country;
+        this.roomList = roomList;
     }
 
     public int getId() {
@@ -56,6 +57,14 @@ public class Hotel {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public List<Room> getRoomList() {
+        return roomList;
+    }
+
+    public void setRoomList(List<Room> roomList) {
+        this.roomList = roomList;
     }
 
     @Override

@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <title>Title</title>
@@ -32,7 +33,12 @@
                         <td>${hotel.name}</td>
                         <td>${hotel.country}</td>
                         <td>
-                            <a href="${getRoomsLink}">rooms</a>
+                            <form:form action="${getRoomsLink}" method="post">
+                                <input name="startDate" type="date" placeholder="From...">
+                                <input name="endDate" type="date" placeholder="To...">
+                                <input type="submit" value="Get rooms">
+                            </form:form>
+
                         </td>
                     </tr>
                 </c:forEach>
