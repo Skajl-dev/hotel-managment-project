@@ -1,6 +1,7 @@
 package com.softserve.greencity.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "room")
@@ -16,14 +17,17 @@ public class Room {
     @ManyToOne
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
-
+//
+    @OneToMany(mappedBy = "room")
+    private List<Order> orders;
 
     public Room() {
     }
 
-    public Room(String name, Hotel hotel) {
+    public Room(String name, Hotel hotel, List<Order> orders) {
         this.name = name;
         this.hotel = hotel;
+        this.orders = orders;
     }
 
     public Integer getId() {
@@ -50,12 +54,20 @@ public class Room {
         this.hotel = hotel;
     }
 
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
     @Override
     public String toString() {
         return "Room{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", hotel=" + hotel +
+                ", orders=" + orders +
                 '}';
     }
 }

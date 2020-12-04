@@ -2,11 +2,15 @@ package com.softserve.greencity.service;
 
 import com.softserve.greencity.dao.HotelDAO;
 import com.softserve.greencity.entity.Hotel;
+import com.softserve.greencity.entity.HotelUser;
+
+import com.softserve.greencity.entity.Order;
 import com.softserve.greencity.entity.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -57,7 +61,31 @@ public class HotelServiceImpl implements HotelService {
 
     @Transactional
     @Override
-    public List<String> findRoomsByHotel(String hotelName) {
+    public List<Room> findRoomsByHotel(String hotelName) {
         return hotelDAO.findRoomsByHotel(hotelName);
+    }
+
+    @Transactional
+    @Override
+    public void bookRoom(Order order) {
+         hotelDAO.bookRoom(order);
+    }
+
+    @Transactional
+    @Override
+    public Room getRoomById(Integer roomId) {
+        return hotelDAO.getRoomById(roomId);
+    }
+
+    @Transactional
+    @Override
+    public HotelUser getUserByName(String name) {
+        return hotelDAO.getUserByName(name);
+    }
+
+    @Transactional
+    @Override
+    public Order getOrderByRoomId(Integer roomId, String bookingDate) {
+        return hotelDAO.getOrderByRoomId(roomId, bookingDate);
     }
 }
