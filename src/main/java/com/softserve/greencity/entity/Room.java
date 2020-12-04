@@ -1,6 +1,9 @@
 package com.softserve.greencity.entity;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "room")
@@ -11,6 +14,7 @@ public class Room {
     private Integer id;
 
     @Column
+    @Size(min = 1, max = 5, message = "room name should be between 1 and 5 characters")
     private String name;
 
     @ManyToOne
