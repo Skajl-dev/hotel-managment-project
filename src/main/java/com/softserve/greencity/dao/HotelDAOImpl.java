@@ -64,6 +64,15 @@ public class HotelDAOImpl implements HotelDAO {
     }
 
     @Override
+    public List<Order> getOrdersByUser(String username) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("FROM Order o INNER JOIN o.user AS u WHERE u.username =: username", Order.class);
+        query.setParameter("username", username);
+        List<Order> orders = query.getResultList();
+        return orders;
+    }
+
+    @Override
     public void bookRoom(Order order) {
         Session session = sessionFactory.getCurrentSession();
         session.save(order);
@@ -94,6 +103,16 @@ public class HotelDAOImpl implements HotelDAO {
         Order order = query.getResultList().isEmpty() ? null : (Order) query.getResultList().get(0);
 
         return order;
+    }
+
+
+
+    @Override
+    public List<HotelUser> getAllUsers() {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("FROM HotelUser", HotelUser.class);
+
+        return query.getResultList();
     }
 
 

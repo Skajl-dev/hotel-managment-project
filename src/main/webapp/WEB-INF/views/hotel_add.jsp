@@ -13,28 +13,29 @@
     <title>new hotel</title>
 </head>
 <body>
-<div align="center">
-<security:authorize access="hasRole('MANAGER')">
+<div align="left">
+
     <h3>New Hotel</h3>
-    <form:form action="save_hotel" method="post" modelAttribute="hotel">
-<table>
+    <form:form action="/admin/save_hotel" method="post" modelAttribute="hotel">
+
     <form:hidden path="id"/>
-    <tr>
-        <td>Country: </td>
-        <td><form:input path="country"/></td>
-       <td> <form:errors path="country"/> </td>
-    </tr>
-    <tr>
-        <td>Hotel name: </td>
-        <td><form:input path="name"/></td>
-        <td> <form:errors path="name"/> </td>
-    </tr>
-    <tr>
-        <td colspan="2" align="center"><input type="submit" value="Save"></td>
-    </tr>
-</table>
+
+        <p>Country:</p>
+        <form:input path="country"/>
+        <form:errors path="country"/>
+
+        </p>Hotel name:</p>
+        <form:input path="name"/>
+        <form:errors path="name"/>
+    <hr/>
+    <br/>
+    <br/>
+
+       <input type="submit" value="Save">
+
+
     </form:form>
-</security:authorize>
+
 </div>
 </body>
 </html>

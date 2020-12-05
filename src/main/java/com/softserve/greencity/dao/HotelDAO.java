@@ -26,4 +26,8 @@ public interface HotelDAO {
     HotelUser getUserByName(String name);
 
     Order getOrderByRoomId(Integer roomId, String bookingDate);
+
+    List<Order> getOrdersByUser(String username);
+
+    List<HotelUser> getAllUsers();
 }

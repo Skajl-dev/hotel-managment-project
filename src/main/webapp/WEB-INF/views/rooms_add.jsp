@@ -16,10 +16,10 @@
 
 </head>
 <body>
-<security:authorize access="hasRole('MANAGER')">
+
 <h3>Set rooms names: </h3>
 
-<form:form action="${pageContext.request.contextPath}/save_rooms" method="post" modelAttribute="roomForm">
+<form:form action="/admin/save_rooms" method="post" modelAttribute="roomForm">
 
     <input type="hidden" name="hotelName" id="hotelInput" value="${hotelName}">
 
@@ -45,6 +45,6 @@
     <input type="submit" value="Submit">
 </form:form>
 
-</security:authorize>
+
 </body>
 </html>

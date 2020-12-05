@@ -35,4 +35,8 @@ public interface HotelService {
     HotelUser getUserByName(String name);
 
     Order getOrderByRoomId(Integer roomId, String bookingDate);
+
+    List<HotelUser> getAllUsers();
+
+    List<Order> getOrdersByUser(String username);
 }
