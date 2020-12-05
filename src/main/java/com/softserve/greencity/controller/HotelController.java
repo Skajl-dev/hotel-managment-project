@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-
 import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDate;
@@ -28,36 +25,13 @@ import java.util.stream.IntStream;
 
 @Controller
 public class HotelController {
-
-
     @Autowired
     private HotelService hotelService;
-
-
-//    @GetMapping("/")
-//    public String test() {
-//        return "welcome";
-//    }
-
-
-//    @GetMapping("/")
-//    public String listHotel() {
-////        List<Hotel> listHotel = hotelService.findAll();
-////        listHotel.forEach(System.out::println);
-//////        model.addObject("listHotel", listHotel);
-////        model.setViewName("home");
-//
-//        return "/home.jsp";
-//    }
-
 
     @GetMapping("/find_hotels")
     public String findHotels(@RequestParam String countryName, Model model) {
         List<Hotel> listHotel = hotelService.findByCountry(countryName);
-//
         model.addAttribute("hotels", listHotel);
-
-//        System.out.println(listHotel);
         return "find_hotels";
     }
 
@@ -72,19 +46,14 @@ public class HotelController {
         List<String> dates = IntStream.iterate(0, i -> i + 1).limit(numOfDaysBetween).mapToObj(i -> localStart.plusDays(i).toString())
                 .collect(Collectors.toList());
 
-
-//        System.out.println(dates);
-
         List<Room> availableRooms = new ArrayList<>();
         List<String> orderDates;
         List<String> differenceElements;
 
         for (Room r : rooms) {
             differenceElements = new ArrayList<>(dates);
-
             if (!r.getOrders().isEmpty()) {
                 orderDates = new ArrayList<>();
-
                 for (Order o : r.getOrders()) {
                     orderDates.add(o.getDateOfBooking());
                 }
@@ -93,7 +62,6 @@ public class HotelController {
                 if(differenceElements.size() != 0) {
                     availableRooms.add(r);
                 }
-
                 availableDates.put(r.getName(), differenceElements);
 
             } else {
@@ -102,24 +70,17 @@ public class HotelController {
             }
         }
 
-        System.out.println(availableDates);
-
-//        System.out.println(roomResult);
-
         model.addAttribute("dates", dates);
         model.addAttribute("rooms", availableRooms);
-
         return "rooms";
     }
 
     @PostMapping("/book_room")
     public String bookRoom(@RequestParam String bookingDate, @RequestParam Integer roomId, Principal principal) {
-//        System.out.println(principal.getName() + " : " + bookingDate + ", room: " + roomId);
         Order findOrder = hotelService.getOrderByRoomId(roomId, bookingDate);
 
         if (findOrder == null) {
             Room room = hotelService.getRoomById(roomId);
-//            System.out.println(room);
             HotelUser user = hotelService.getUserByName(principal.getName());
             Order order = new Order();
             order.setUser(user);
@@ -149,7 +110,7 @@ public class HotelController {
         if (errors.hasErrors()) {
             return "redirect:index.jsp";
         }
-        hotelService.save(hotel);
+        hotelService.saveHotel(hotel);
         model.addAttribute("hotelName", hotel.getName());
 
         return "redirect:/new_rooms_info";
@@ -164,8 +125,8 @@ public class HotelController {
     }
 
     @GetMapping("/new_rooms")
-    public String newRoomsCreation(@RequestParam String hotelName, @RequestParam int amountOfRooms
-            , Model model) {
+    public String newRoomsCreation(@RequestParam String hotelName, @RequestParam int amountOfRooms,
+                                   Model model) {
         model.addAttribute("roomForm", hotelService.creatingRoomFormForAmount(amountOfRooms));
         model.addAttribute("hotelName", hotelName);
 
@@ -178,7 +139,6 @@ public class HotelController {
             return "redirect:index.jsp";
         }
         hotelService.saveRooms(roomForm, hotelService.findByName(hotelName));
-
         return "redirect:index.jsp";
     }
 
