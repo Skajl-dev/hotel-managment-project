@@ -1,31 +1,17 @@
 package com.softserve.greencity.dao;
 
-
 import com.softserve.greencity.entity.Hotel;
 import com.softserve.greencity.entity.HotelUser;
-
 import com.softserve.greencity.entity.Order;
 import com.softserve.greencity.entity.Room;
 
-import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
-
 
 public interface HotelDAO {
 
-//    Hotel findHotelById(int id);
-
-    List<Hotel> findAll();
-//
-    void save(Hotel hotel);
-//
-//    void update(Hotel hotel);
-//
-//    void deleteById(int id);;
+    void saveHotel(Hotel hotel);
 
     void saveRoom(Room room);
-//
 
     Hotel findByName(String hotelName);
 
@@ -40,7 +26,4 @@ public interface HotelDAO {
     HotelUser getUserByName(String name);
 
     Order getOrderByRoomId(Integer roomId, String bookingDate);
-
-//    Optional<HotelUser> selectHotelUserByUsername(String username);
-
 }

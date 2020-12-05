@@ -10,10 +10,8 @@ import com.softserve.greencity.entity.RoomForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.Errors;
 
 import java.util.ArrayList;
-import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -26,24 +24,10 @@ public class HotelServiceImpl implements HotelService {
         this.hotelDAO = hotelDAO;
     }
 
-
-//    @Override
-//    public Hotel findHotelById(int id) {
-//        Hotel hotel = hotelDAO.findHotelById(id);
-//        return hotel;
-//    }
-
     @Transactional
     @Override
-    public List<Hotel> findAll() {
-        List<Hotel> hotels = hotelDAO.findAll();
-        return hotels;
-    }
-
-    @Transactional
-    @Override
-    public void save(Hotel hotel) {
-        hotelDAO.save(hotel);
+    public void saveHotel(Hotel hotel) {
+        hotelDAO.saveHotel(hotel);
     }
 
     @Transactional
@@ -82,17 +66,6 @@ public class HotelServiceImpl implements HotelService {
         });
     }
 
-
-    //    @Override
-//    public void update(Hotel hotel) {
-//        hotelDAO.update(hotel);
-//    }
-//
-//    @Override
-//    public void deleteById(int id) {
-//        hotelDAO.deleteById(id);
-//    }
-//
     @Transactional
     @Override
     public List<Hotel> findByCountry(String country) {
@@ -115,7 +88,7 @@ public class HotelServiceImpl implements HotelService {
     @Transactional
     @Override
     public void bookRoom(Order order) {
-         hotelDAO.bookRoom(order);
+        hotelDAO.bookRoom(order);
     }
 
     @Transactional

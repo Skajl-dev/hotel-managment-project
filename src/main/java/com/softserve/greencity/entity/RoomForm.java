@@ -6,7 +6,6 @@ public class RoomForm {
 
     private List<Room> rooms;
 
-
     public List<Room> getRooms() {
         return rooms;
     }
