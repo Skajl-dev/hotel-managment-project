@@ -2,47 +2,27 @@ package com.softserve.greencity.dao;
 
 import com.softserve.greencity.entity.Hotel;
 import com.softserve.greencity.entity.HotelUser;
-
 import com.softserve.greencity.entity.Order;
 import com.softserve.greencity.entity.Room;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
-import java.security.Principal;
 import java.util.List;
 
 @Repository
 public class HotelDAOImpl implements HotelDAO {
     private SessionFactory sessionFactory;
-    private Session currentSession;
 
     @Autowired
     public HotelDAOImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
-//    @Override
-//    public Hotel findHotelById(int id) {
-//        openCurrentSession();
-//        Hotel hotel = (Hotel) getCurrentSession().get(Hotel.class, id);
-//        closeCurrentSession();
-//        return hotel;
-//    }
-
     @Override
-    public List<Hotel> findAll() {
-        Session session = sessionFactory.getCurrentSession();
-
-        List<Hotel> hotels = session.createQuery("FROM Hotel", Hotel.class).getResultList();
-        return hotels;
-    }
-
-    @Override
-    public void save(Hotel hotel) {
+    public void saveHotel(Hotel hotel) {
         Session session = sessionFactory.getCurrentSession();
         session.save(hotel);
     }
@@ -72,30 +52,12 @@ public class HotelDAOImpl implements HotelDAO {
 
         return hotels;
     }
-    //
-//    @Override
-//    public void update(Hotel hotel) {
-//        openCurrentSessionWithTransaction();
-//        getCurrentSession().update(hotel);
-//        closeCurrentSessionWithTransaction();
-//    }
-//
-//    @Override
-//    public void deleteById(int id) {
-//        openCurrentSessionWithTransaction();
-//        final Hotel hotel = findHotelById(id);
-//        getCurrentSession().delete(hotel);
-//        closeCurrentSessionWithTransaction();
-//    }l
-//
-
 
     @Override
     public List<Room> findRoomsByHotel(String hotelName) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("FROM Room r INNER JOIN r.hotel AS h WHERE h.name = :hotelName", Room.class);
         query.setParameter("hotelName", hotelName);
-//        JOIN Hotel as h ON r.hotel_id = h.id WHERE h.name = :hotelName
         List<Room> rooms = query.getResultList();
         System.out.println(rooms);
         return rooms;
@@ -104,9 +66,7 @@ public class HotelDAOImpl implements HotelDAO {
     @Override
     public void bookRoom(Order order) {
         Session session = sessionFactory.getCurrentSession();
-
         session.save(order);
-
     }
 
     @Override
@@ -131,13 +91,10 @@ public class HotelDAOImpl implements HotelDAO {
         query.setParameter("Id", Id);
         query.setParameter("date", date);
 
-
         Order order = query.getResultList().isEmpty() ? null : (Order) query.getResultList().get(0);
-
 
         return order;
     }
-
 
 
 }
