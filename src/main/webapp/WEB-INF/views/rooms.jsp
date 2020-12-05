@@ -28,11 +28,17 @@
                     <td>${room.name}</td>
                     <td>
                         <form:form action="${getRoomLink}" method="post">
+
                             <select name="bookingDate">
-                                <c:forEach var="date" items="${dates}">
-                                     <option value="${date}">${date}</option>
+                                <c:forEach var="dates" items="${availableDates}">
+                                    <c:if test="${room.name == dates.key}">
+                                        <c:forEach var="date" items="${dates.value}">
+                                            <option value="${date}">${date}</option>
+                                        </c:forEach>
+                                    </c:if>
                                 </c:forEach>
                             </select>
+
                             <input type = "submit" value = "Book" />
                         </form:form>
                     </td>

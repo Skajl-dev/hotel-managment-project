@@ -17,9 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -60,19 +58,52 @@ public class HotelController {
     }
 
     @PostMapping("/rooms")
-    public String findRooms(@RequestParam String hotelName, @RequestParam String startDate, @RequestParam String endDate, Model model) {
+    public String findRooms(@RequestParam String hotelName, @RequestParam String startDate, @RequestParam String endDate, Model model,
+                            @ModelAttribute("availableDates") HashMap<String, List<String>> availableDates) {
         List<Room> rooms = hotelService.findRoomsByHotel(hotelName);
 
-        rooms.forEach(System.out::println);
         LocalDate localStart = LocalDate.parse(startDate);
-        LocalDate localEnd = LocalDate.parse(endDate);
+        LocalDate localEnd = LocalDate.parse(endDate).plusDays(1);
         long numOfDaysBetween = ChronoUnit.DAYS.between(localStart, localEnd);
         List<String> dates = IntStream.iterate(0, i -> i + 1).limit(numOfDaysBetween).mapToObj(i -> localStart.plusDays(i).toString())
                 .collect(Collectors.toList());
 
 
+//        System.out.println(dates);
+
+        List<Room> availableRooms = new ArrayList<>();
+        List<String> orderDates;
+        List<String> differenceElements;
+
+        for (Room r : rooms) {
+            differenceElements = new ArrayList<>(dates);
+
+            if (!r.getOrders().isEmpty()) {
+                orderDates = new ArrayList<>();
+
+                for (Order o : r.getOrders()) {
+                    orderDates.add(o.getDateOfBooking());
+                }
+
+                differenceElements.removeAll(orderDates);
+                if(differenceElements.size() != 0) {
+                    availableRooms.add(r);
+                }
+
+                availableDates.put(r.getName(), differenceElements);
+
+            } else {
+                availableRooms.add(r);
+                availableDates.put(r.getName(), differenceElements);
+            }
+        }
+
+        System.out.println(availableDates);
+
+//        System.out.println(roomResult);
+
         model.addAttribute("dates", dates);
-        model.addAttribute("rooms", rooms);
+        model.addAttribute("rooms", availableRooms);
 
         return "rooms";
     }
