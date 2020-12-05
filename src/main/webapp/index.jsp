@@ -30,7 +30,7 @@
 <security:authorize access="hasRole('MANAGER')">
     <p><a href="/admin/new_hotel">add hotel in the system</a></p>
     <p><a href="/admin/new_rooms_info">add rooms to the hotel</a></p>
-    <p><a href="#">view all users and their orders</a></p>
+    <p><a href="/admin/view_all_users">view all users and their orders</a></p>
 </security:authorize>
 
 <form:form action="${pageContext.request.contextPath}/logout" method="post">

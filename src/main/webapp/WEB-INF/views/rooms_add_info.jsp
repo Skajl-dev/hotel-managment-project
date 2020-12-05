@@ -49,10 +49,11 @@
                 <input name="hotelName" id="hotelInput" type="hidden" value="${hotelName}">
             </c:otherwise>
         </c:choose>
-
         <label for="amountOfRoomsInput">Amount :</label>
         <input name="amountOfRooms" id="amountOfRoomsInput">
-
+        <hr/>
+        <br/>
+        <br/>
         <input type="submit" value="next">
     </form:form>
 </div>

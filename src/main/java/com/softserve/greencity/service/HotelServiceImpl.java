@@ -108,4 +108,18 @@ public class HotelServiceImpl implements HotelService {
     public Order getOrderByRoomId(Integer roomId, String bookingDate) {
         return hotelDAO.getOrderByRoomId(roomId, bookingDate);
     }
+
+    @Transactional
+    @Override
+    public List<HotelUser> getAllUsers() {
+        return hotelDAO.getAllUsers();
+    }
+
+    @Transactional
+    @Override
+    public List<Order> getOrdersByUser(String username) {
+        return hotelDAO.getOrdersByUser(username);
+    }
+
+
 }

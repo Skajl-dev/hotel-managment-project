@@ -10,10 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDate;
@@ -142,6 +140,23 @@ public class HotelController {
 
         return "hotel_add";
     }
+
+    @GetMapping("/admin/view_all_users")
+    public String viewAllUsers(Model model) {
+        model.addAttribute("users", hotelService.getAllUsers());
+
+        return "view_all_users";
+    }
+
+    @GetMapping("/admin/view_user_orders/{username}")
+    public String viewAllUsers(@PathVariable String username, Model model) {
+        List<Order> orders = hotelService.getOrdersByUser(username);
+        model.addAttribute("orders", orders);
+
+        return "view_user_orders";
+    }
+
+
 
     @PostMapping("/admin/save_hotel")
     public String saveHotel(@Valid @ModelAttribute Hotel hotel, Errors errors, Model model) {
