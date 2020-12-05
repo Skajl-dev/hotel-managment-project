@@ -14,9 +14,9 @@
 </head>
 <body>
 <div align="center">
-<security:authorize access="hasRole('MANAGER')">
+
     <h3>New Hotel</h3>
-    <form:form action="save_hotel" method="post" modelAttribute="hotel">
+    <form:form action="/admin/save_hotel" method="post" modelAttribute="hotel">
 <table>
     <form:hidden path="id"/>
     <tr>
@@ -34,7 +34,7 @@
     </tr>
 </table>
     </form:form>
-</security:authorize>
+
 </div>
 </body>
 </html>

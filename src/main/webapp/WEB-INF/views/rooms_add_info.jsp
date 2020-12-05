@@ -36,11 +36,10 @@
 
 </head>
 <body>
-<security:authorize access="hasRole('MANAGER')">
 
 <div align="left">
     <h3>Add rooms to hotel:</h3>
-    <form:form action="${pageContext.request.contextPath}/new_rooms" method="get" onsubmit="return validateData()">
+    <form:form action="/admin/new_rooms" method="get" onsubmit="return validateData()">
         <c:choose>
             <c:when test="${hotelName.equals('')}">
                 <label for="hotelInput">Name :</label>
@@ -57,6 +56,6 @@
         <input type="submit" value="next">
     </form:form>
 </div>
-</security:authorize>
+
 </body>
 </html>
