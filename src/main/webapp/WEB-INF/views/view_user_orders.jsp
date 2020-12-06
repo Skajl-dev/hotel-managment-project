@@ -18,19 +18,21 @@
     <tr>
         <th>Order id</th>
         <th>Date of booking</th>
+        <th>Country</th>
         <th>Hotel name</th>
         <th>Room №</th>
     </tr>
 
 
-<c:forEach var="order" items="${orders}">
-    <tr>
-    <td>${order.id}</td>
-    <td>${order.dateOfBooking}</td>
-    <td>${order.room.hotel.name}</td>
-    <td>${order.room.name}</td>
-    </tr>
-</c:forEach>
+    <c:forEach var="order" items="${orders}">
+        <tr>
+            <td>${order.id}</td>
+            <td>${order.dateOfBooking}</td>
+            <td>${order.room.hotel.country}</td>
+            <td>${order.room.hotel.name}</td>
+            <td>${order.room.name}</td>
+        </tr>
+    </c:forEach>
 
 </table>
 <br/>

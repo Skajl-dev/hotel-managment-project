@@ -150,8 +150,7 @@ public class HotelController {
 
     @GetMapping("/admin/view_user_orders/{username}")
     public String viewAllUsers(@PathVariable String username, Model model) {
-        List<Order> orders = hotelService.getOrdersByUser(username);
-        model.addAttribute("orders", orders);
+        model.addAttribute("orders", hotelService.getOrdersByUser(username));
 
         return "view_user_orders";
     }
@@ -160,13 +159,9 @@ public class HotelController {
 
     @PostMapping("/admin/save_hotel")
     public String saveHotel(@Valid @ModelAttribute Hotel hotel, Errors errors, Model model) {
-        if (errors.hasErrors()) {
-            return "redirect:/back_to_start";
-        }
-        hotelService.saveHotel(hotel);
         model.addAttribute("hotelName", hotel.getName());
 
-        return "redirect:/admin/new_rooms_info";
+        return hotelService.saveHotel(errors, hotel);
     }
 
 
@@ -187,13 +182,10 @@ public class HotelController {
     }
 
     @PostMapping("/admin/save_rooms")
-    public String saveRooms(@Valid @ModelAttribute RoomForm roomForm, @RequestParam String hotelName, Errors errors) {
-        if (errors.hasErrors()) {
-            return "redirect:/back_to_start";
-        }
-        hotelService.saveRooms(roomForm, hotelService.findByName(hotelName));
+    public String saveRooms(@Valid @ModelAttribute RoomForm roomForm, @RequestParam String hotelName,
+                            Errors errors) {
 
-        return "redirect:/back_to_start";
+        return hotelService.saveRooms(errors, roomForm, hotelService.findByName(hotelName));
     }
 
     @GetMapping("/back_to_start")
