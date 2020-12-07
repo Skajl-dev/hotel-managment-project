@@ -16,11 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import javax.validation.Valid;
 import java.security.Principal;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 
 @Controller
@@ -40,35 +36,12 @@ public class HotelController {
                             @ModelAttribute("availableDates") HashMap<String, List<String>> availableDates) {
         List<Room> rooms = hotelService.findRoomsByHotel(hotelName);
 
-        LocalDate localStart = LocalDate.parse(startDate);
-        LocalDate localEnd = LocalDate.parse(endDate).plusDays(1);
-        long numOfDaysBetween = ChronoUnit.DAYS.between(localStart, localEnd);
-        List<String> dates = IntStream.iterate(0, i -> i + 1).limit(numOfDaysBetween).mapToObj(i -> localStart.plusDays(i).toString())
-                .collect(Collectors.toList());
+
+        List<String> dates = hotelService.getRangeOfDates(startDate, endDate);
 
         List<Room> availableRooms = new ArrayList<>();
-        List<String> orderDates;
-        List<String> differenceElements;
 
-        for (Room r : rooms) {
-            differenceElements = new ArrayList<>(dates);
-            if (!r.getOrders().isEmpty()) {
-                orderDates = new ArrayList<>();
-                for (Order o : r.getOrders()) {
-                    orderDates.add(o.getDateOfBooking());
-                }
-
-                differenceElements.removeAll(orderDates);
-                if(differenceElements.size() != 0) {
-                    availableRooms.add(r);
-                }
-                availableDates.put(r.getName(), differenceElements);
-
-            } else {
-                availableRooms.add(r);
-                availableDates.put(r.getName(), differenceElements);
-            }
-        }
+        hotelService.getAvailableRooms(availableRooms, rooms, availableDates, dates);
 
         model.addAttribute("dates", dates);
         model.addAttribute("rooms", availableRooms);
