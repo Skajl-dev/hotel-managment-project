@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.time.LocalDate;
@@ -30,30 +29,11 @@ public class HotelController {
     private HotelService hotelService;
 
 
-//    @GetMapping("/")
-//    public String test() {
-//        return "welcome";
-//    }
-
-
-//    @GetMapping("/")
-//    public String listHotel() {
-////        List<Hotel> listHotel = hotelService.findAll();
-////        listHotel.forEach(System.out::println);
-//////        model.addObject("listHotel", listHotel);
-////        model.setViewName("home");
-//
-//        return "/home.jsp";
-//    }
-
-
     @GetMapping("/find_hotels")
     public String findHotels(@RequestParam String countryName, Model model) {
         List<Hotel> listHotel = hotelService.findByCountry(countryName);
-//
         model.addAttribute("hotels", listHotel);
 
-//        System.out.println(listHotel);
         return "find_hotels";
     }
 
