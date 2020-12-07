@@ -19,7 +19,6 @@
 
             <table>
                 <tr>
-                    <td>id</td>
                     <td>name</td>
                     <td>country</td>
                     <td>Available rooms</td>
@@ -29,7 +28,6 @@
                         <c:param name="hotelName" value="${hotel.name}"/>
                     </c:url>
                     <tr>
-                        <td>${hotel.id}</td>
                         <td>${hotel.name}</td>
                         <td>${hotel.country}</td>
                         <td>
@@ -38,11 +36,13 @@
                                 <input name="endDate" type="date" placeholder="To...">
                                 <input type="submit" value="Get rooms">
                             </form:form>
-
                         </td>
                     </tr>
                 </c:forEach>
             </table>
+            <form action="${pageContext.request.contextPath}/back_to_start">
+                <input type="submit" value="Back Home">
+            </form>
         </div>
     </div>
 </section>
