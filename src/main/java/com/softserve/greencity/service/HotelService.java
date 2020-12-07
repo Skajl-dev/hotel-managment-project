@@ -8,6 +8,7 @@ import com.softserve.greencity.entity.Room;
 import com.softserve.greencity.entity.RoomForm;
 import org.springframework.validation.Errors;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -36,6 +37,11 @@ public interface HotelService {
     HotelUser getUserByName(String name);
 
     Order getOrderByRoomId(Integer roomId, String bookingDate);
+
+
+    List<String> getRangeOfDates(String startDate, String endDate);
+
+    void getAvailableRooms(List<Room> availableRooms, List<Room> rooms, HashMap<String, List<String>> availableDates, List<String> dates);
 
     List<HotelUser> getAllUsers();
 
