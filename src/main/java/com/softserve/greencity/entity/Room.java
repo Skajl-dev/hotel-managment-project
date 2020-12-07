@@ -1,7 +1,5 @@
 package com.softserve.greencity.entity;
 
-import org.hibernate.validator.constraints.Length;
-
 import javax.persistence.*;
 import java.util.List;
 import javax.validation.constraints.Size;
@@ -21,7 +19,7 @@ public class Room {
     @ManyToOne
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
-
+//
     @OneToMany(mappedBy = "room")
     private List<Order> orders;
 

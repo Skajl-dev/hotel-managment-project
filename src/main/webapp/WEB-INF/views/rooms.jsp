@@ -45,6 +45,9 @@
                 </tr>
             </c:forEach>
         </table>
+        <form action="${pageContext.request.contextPath}/back_to_start">
+            <input type="submit" value="Back Home">
+        </form>
     </div>
 </div>
 </body>

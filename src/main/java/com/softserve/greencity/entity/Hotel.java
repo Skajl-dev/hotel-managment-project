@@ -1,8 +1,5 @@
 package com.softserve.greencity.entity;
 
-import org.hibernate.validator.constraints.Length;
-
-
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.List;

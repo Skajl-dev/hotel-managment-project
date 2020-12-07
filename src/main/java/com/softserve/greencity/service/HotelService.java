@@ -6,13 +6,15 @@ import com.softserve.greencity.entity.HotelUser;
 import com.softserve.greencity.entity.Order;
 import com.softserve.greencity.entity.Room;
 import com.softserve.greencity.entity.RoomForm;
+import org.springframework.validation.Errors;
 
+import java.util.HashMap;
 import java.util.List;
 
 
 public interface HotelService {
 
-    void saveHotel(Hotel hotel);
+    String saveHotel(Errors errors, Hotel hotel);
 
     Hotel findByName(String hotelName);
 
@@ -20,7 +22,7 @@ public interface HotelService {
 
     RoomForm creatingRoomFormForAmount(int amount);
 
-    void saveRooms(RoomForm roomForm, Hotel hotel);
+    String saveRooms(Errors errors, RoomForm roomForm, Hotel hotel);
 
     void saveRoom(Room room);
 
@@ -35,4 +37,15 @@ public interface HotelService {
     HotelUser getUserByName(String name);
 
     Order getOrderByRoomId(Integer roomId, String bookingDate);
+
+
+    List<String> getRangeOfDates(String startDate, String endDate);
+
+    void getAvailableRooms(List<Room> availableRooms, List<Room> rooms, HashMap<String, List<String>> availableDates, List<String> dates);
+
+    List<HotelUser> getAllUsers();
+
+    List<Order> getOrdersByUser(String username);
+
+
 }
