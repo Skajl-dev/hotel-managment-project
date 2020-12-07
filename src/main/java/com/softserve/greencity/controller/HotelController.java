@@ -25,55 +25,22 @@ public class HotelController {
     private HotelService hotelService;
 
 
-//    @GetMapping("/")
-//    public String test() {
-//        return "welcome";
-//    }
-
-
-//    @GetMapping("/")
-//    public String listHotel() {
-////        List<Hotel> listHotel = hotelService.findAll();
-////        listHotel.forEach(System.out::println);
-//////        model.addObject("listHotel", listHotel);
-////        model.setViewName("home");
-//
-//        return "/home.jsp";
-//    }
-
-
-
-
     @GetMapping("/find_hotels")
     public String findHotels(@RequestParam String countryName, Model model) {
         List<Hotel> listHotel = hotelService.findByCountry(countryName);
-//
         model.addAttribute("hotels", listHotel);
-
-//        System.out.println(listHotel);
         return "find_hotels";
     }
 
     @PostMapping("/rooms")
     public String findRooms(@RequestParam String hotelName, @RequestParam String startDate, @RequestParam String endDate, Model model,
                             @ModelAttribute("availableDates") HashMap<String, List<String>> availableDates) {
+
         List<Room> rooms = hotelService.findRoomsByHotel(hotelName);
-
-
         List<String> dates = hotelService.getRangeOfDates(startDate, endDate);
-
-
-//        System.out.println(dates);
-
         List<Room> availableRooms = new ArrayList<>();
 
-
         hotelService.getAvailableRooms(availableRooms, rooms, availableDates, dates);
-
-
-        System.out.println(availableDates);
-
-//        System.out.println(roomResult);
 
         model.addAttribute("dates", dates);
         model.addAttribute("rooms", availableRooms);
@@ -83,12 +50,10 @@ public class HotelController {
 
     @PostMapping("/book_room")
     public String bookRoom(@RequestParam String bookingDate, @RequestParam Integer roomId, Principal principal) {
-//        System.out.println(principal.getName() + " : " + bookingDate + ", room: " + roomId);
-        Order findOrder = hotelService.getOrderByRoomId(roomId, bookingDate);
+      Order findOrder = hotelService.getOrderByRoomId(roomId, bookingDate);
 
         if (findOrder == null) {
             Room room = hotelService.getRoomById(roomId);
-//            System.out.println(room);
             HotelUser user = hotelService.getUserByName(principal.getName());
             Order order = new Order();
             order.setUser(user);
