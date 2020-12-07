@@ -10,6 +10,7 @@ import com.softserve.greencity.entity.RoomForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.Errors;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -31,8 +32,13 @@ public class HotelServiceImpl implements HotelService {
 
     @Transactional
     @Override
-    public void saveHotel(Hotel hotel) {
-        hotelDAO.saveHotel(hotel);
+    public String saveHotel(Errors errors, Hotel hotel) {
+        if (errors.hasErrors()) {
+            return "redirect:/back_to_start";
+        } else {
+            hotelDAO.saveHotel(hotel);
+            return "redirect:/admin/new_rooms_info";
+        }
     }
 
     @Transactional
@@ -60,15 +66,20 @@ public class HotelServiceImpl implements HotelService {
 
     @Transactional
     @Override
-    public void saveRooms(RoomForm roomForm, Hotel hotel) {
-        List<Room> rooms = roomForm.getRooms();
-        rooms.forEach(room -> room.setHotel(hotel));
+    public String saveRooms(Errors errors, RoomForm roomForm, Hotel hotel) {
+        if (errors.hasErrors()) {
+            return "redirect:/back_to_start";
+        } else {
+            List<Room> rooms = roomForm.getRooms();
+            rooms.forEach(room -> room.setHotel(hotel));
 
-        rooms.forEach(room -> {
-            if (!room.getName().isEmpty()) {
-                this.saveRoom(room);
-            }
-        });
+            rooms.forEach(room -> {
+                if (!room.getName().isEmpty()) {
+                    this.saveRoom(room);
+                }
+            });
+            return "redirect:/back_to_start";
+        }
     }
 
     @Transactional
@@ -114,6 +125,7 @@ public class HotelServiceImpl implements HotelService {
         return hotelDAO.getOrderByRoomId(roomId, bookingDate);
     }
 
+
     @Override
     public List<String> getRangeOfDates(String startDate, String endDate) {
         LocalDate localStart = LocalDate.parse(startDate);
@@ -148,4 +160,19 @@ public class HotelServiceImpl implements HotelService {
             }
         }
     }
+
+    @Transactional
+    @Override
+    public List<HotelUser> getAllUsers() {
+        return hotelDAO.getAllUsers();
+    }
+
+    @Transactional
+    @Override
+    public List<Order> getOrdersByUser(String username) {
+        return hotelDAO.getOrdersByUser(username);
+    }
+
+
+
 }

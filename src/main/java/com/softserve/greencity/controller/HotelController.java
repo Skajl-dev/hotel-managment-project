@@ -10,10 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.*;
@@ -21,13 +19,38 @@ import java.util.*;
 
 @Controller
 public class HotelController {
+
+
     @Autowired
     private HotelService hotelService;
+
+
+//    @GetMapping("/")
+//    public String test() {
+//        return "welcome";
+//    }
+
+
+//    @GetMapping("/")
+//    public String listHotel() {
+////        List<Hotel> listHotel = hotelService.findAll();
+////        listHotel.forEach(System.out::println);
+//////        model.addObject("listHotel", listHotel);
+////        model.setViewName("home");
+//
+//        return "/home.jsp";
+//    }
+
+
+
 
     @GetMapping("/find_hotels")
     public String findHotels(@RequestParam String countryName, Model model) {
         List<Hotel> listHotel = hotelService.findByCountry(countryName);
+//
         model.addAttribute("hotels", listHotel);
+
+//        System.out.println(listHotel);
         return "find_hotels";
     }
 
@@ -39,21 +62,33 @@ public class HotelController {
 
         List<String> dates = hotelService.getRangeOfDates(startDate, endDate);
 
+
+//        System.out.println(dates);
+
         List<Room> availableRooms = new ArrayList<>();
+
 
         hotelService.getAvailableRooms(availableRooms, rooms, availableDates, dates);
 
+
+        System.out.println(availableDates);
+
+//        System.out.println(roomResult);
+
         model.addAttribute("dates", dates);
         model.addAttribute("rooms", availableRooms);
+
         return "rooms";
     }
 
     @PostMapping("/book_room")
     public String bookRoom(@RequestParam String bookingDate, @RequestParam Integer roomId, Principal principal) {
+//        System.out.println(principal.getName() + " : " + bookingDate + ", room: " + roomId);
         Order findOrder = hotelService.getOrderByRoomId(roomId, bookingDate);
 
         if (findOrder == null) {
             Room room = hotelService.getRoomById(roomId);
+//            System.out.println(room);
             HotelUser user = hotelService.getUserByName(principal.getName());
             Order order = new Order();
             order.setUser(user);
@@ -71,33 +106,45 @@ public class HotelController {
     }
 
 
-    @GetMapping("/new_hotel")
+    @GetMapping("/admin/new_hotel")
     public String newHotel(Model model) {
         model.addAttribute("hotel", hotelService.emptyHotel());
 
         return "hotel_add";
     }
 
-    @PostMapping("/save_hotel")
-    public String saveHotel(@Valid @ModelAttribute Hotel hotel, Errors errors, Model model) {
-        if (errors.hasErrors()) {
-            return "redirect:index.jsp";
-        }
-        hotelService.saveHotel(hotel);
-        model.addAttribute("hotelName", hotel.getName());
+    @GetMapping("/admin/view_all_users")
+    public String viewAllUsers(Model model) {
+        model.addAttribute("users", hotelService.getAllUsers());
 
-        return "redirect:/new_rooms_info";
+        return "view_all_users";
+    }
+
+    @GetMapping("/admin/view_user_orders/{username}")
+    public String viewAllUsers(@PathVariable String username, Model model) {
+        model.addAttribute("orders", hotelService.getOrdersByUser(username));
+
+        return "view_user_orders";
     }
 
 
-    @GetMapping("/new_rooms_info")
+
+    @PostMapping("/admin/save_hotel")
+    public String saveHotel(@Valid @ModelAttribute Hotel hotel, Errors errors, Model model) {
+        model.addAttribute("hotelName", hotel.getName());
+
+        return hotelService.saveHotel(errors, hotel);
+    }
+
+
+    @GetMapping("/admin/new_rooms_info")
     public String newRoomsInfo(@RequestParam(defaultValue = "") String hotelName, Model model) {
         model.addAttribute("hotelName", hotelName);
 
         return "rooms_add_info";
     }
 
-    @GetMapping("/new_rooms")
+    @GetMapping("/admin/new_rooms")
     public String newRoomsCreation(@RequestParam String hotelName, @RequestParam int amountOfRooms,
                                    Model model) {
         model.addAttribute("roomForm", hotelService.creatingRoomFormForAmount(amountOfRooms));
@@ -106,12 +153,15 @@ public class HotelController {
         return "rooms_add";
     }
 
-    @PostMapping("/save_rooms")
-    public String saveRooms(@Valid @ModelAttribute RoomForm roomForm, @RequestParam String hotelName, Errors errors) {
-        if (errors.hasErrors()) {
-            return "redirect:index.jsp";
-        }
-        hotelService.saveRooms(roomForm, hotelService.findByName(hotelName));
+    @PostMapping("/admin/save_rooms")
+    public String saveRooms(@Valid @ModelAttribute RoomForm roomForm, @RequestParam String hotelName,
+                            Errors errors) {
+
+        return hotelService.saveRooms(errors, roomForm, hotelService.findByName(hotelName));
+    }
+
+    @GetMapping("/back_to_start")
+    public String redirect() {
         return "redirect:index.jsp";
     }
 
